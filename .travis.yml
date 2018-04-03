@@ -16,10 +16,13 @@ script:
 - npm run lint
 - xvfb-run polymer test polymer test --plugin local
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test --plugin sauce --job-name
-  "response-error-view:${TRAVIS_BRANCH}" --build-number=${TRAVIS_BUILD_NUMBER};
-  fi
+  "response-error-view:${TRAVIS_BRANCH}" --build-number=${TRAVIS_BUILD_NUMBER}; fi
 cache:
   directories:
   - node_modules
 after_success:
 - node tasks/ci.js
+env:
+  global:
+  - secure: RZMdKIBYGJiW0EaK7lsI2wpdvATDKMKCdyVhka0A5LlPCFofbo1KrD/pzj6yD7rMmwF0DG9uSjwkHRCT4r6ZLOwkL+oE9MTTQUGoMS/G2z45qhN5cZbLqzS+1E9afl97PnRDZQfckJTbzZsxCZoE9zbWQRG5/Z/GckEMmPobUa/EDYoeKHkDg1Ckg4MZF0vcCusMs1IX0sbxcIkC5zsyYX1sORmVJyRH5U+nMAeMhLvidtWpE8TqpSyi1Mm4pL72d7FeORrTPhqVfJfT+cnNyF3sUITOpaK64ltQqZLr2zdgPF+cuOOTwdfzsXTK9K2F8i6PFptYOFoKiGbhNRDtOuUJoI/IgBZKaT9/EAzNER88YevhQ4Zx+EjUbs73niGwg9q1I5b5RKpJZdU2gtcMtKmf8vJMwrv0BB9gHfGZp9w779jo82Gu4TkTowP/NQwr4evSoDTK1vN34Ptm49UWrOu9Y0QLUvfgBh7qEsA608rClE8jjbtcwDDu/db/BDQLOS8kh6in+y+Gp6xfzCExGFGGP8mVf67p316xqivWcvuGqpYLnWMbP2AXBh4VZXjsdecBN/w/7mtgNHs0ISUy0Dre6bOHkLl2woA7/cjVswW8xWAVVdSxyU66kgpM5xOTQ5F0Wq8Txp0gI4SWGS69S5YjVJCRGdVdlCD57YgGfW8=
+  - secure: UukwTe5CrskH95Kb6uKCGA8xf/9YSAoZMDeKdGSO4t7nY7w6ooPbvkqIugPUftkc/yUilMn0Y3cObm+JJHDShMa75bgAiIRioMlTawV4OULcwOMQ7nzKDTFv4blHjBEkY9F8CO73LHQ7iyNHUFPd9aDZmRAZv/X0+RO21OEdXpaMeKuO67SuQBn6HBG4dswpi+03lMLRRNU9+E9ewF7m2JyC8pF5iS5Bk5XtH5EIythvGlS5QBaoOT5sVKPb8sJ5TxF/tcnW2yqpu/Mcc02OWccMpetancIwPUX68CgG1Pc6kHsxe2RjUU/d0GFBVwYP1DHKdsRdsuAjr+aIi9YpSa7jWBUAytrN+LkaE1rFdrP1ukPv3Ky2/35ZifAi2bODJDscv/eMilFPtbaO6O52oKj1M2KgvJbdrGkn+ZL3F+Bkil90vQyGCRj/VQCGSTKYEDy8DWFbwAaQaOClNOKy5OF35eQF5x7U0aqsy6SffmZ+9pRicCLOgyvtnfBdmgJ94u1qOZWGE0eywVmRPFNjEs4U3h773s1cuIOQHpqkNkw0zcMBauiVHtXPnIFFz7w5+RMWYbPWwYszbWXhxlW0X/rT0qifrYbOBF4IS3Ul/GL1pnGA958DHZOOGa3V5/XxIkPbaNAewnNh9mQkz4SauohRsTqIMAxWROXAonJGJFc=
