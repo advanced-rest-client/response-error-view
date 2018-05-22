@@ -1,11 +1,10 @@
 {
-  "name": "@api-components/response-error-view",
-  "version": "2.0.0-preview",
+  "name": "@advanced-rest-client/response-error-view",
+  "version": "2.0.0",
   "license": "Apache-2.0",
   "description": "A view for the response error",
   "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.1.1",
-    "bower": "^1.8.0"
+    "@polymer/gen-typescript-declarations": "^1.1.1"
   },
   "private": false,
   "main": "response-error-view.html",
