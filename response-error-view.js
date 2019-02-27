@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -10,16 +10,115 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
--->
-<link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../iron-icon/iron-icon.html">
-<link rel="import" href="../iron-pages/iron-pages.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../arc-icons/arc-icons.html">
-<dom-module id="response-error-view">
-  <template>
+*/
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '@polymer/iron-flex-layout/iron-flex-layout.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/paper-button/paper-button.js';
+import '@advanced-rest-client/arc-icons/arc-icons.js';
+/* eslint-disable max-len */
+/**
+ * A view for the response error.
+ *
+ * The element displays predefined error message with icon and depending on the
+ * `message` property it will display custom message or a predefined explanation
+ * if the message is one of the Chrome's network errors (net::*).
+ *
+ * If the `message` property is not set then a defaulot message will be displayed.
+ *
+ * ### Examples
+ *
+ * #### Custom message
+ *
+ * ```html
+ * <response-error-view message="Unable to run the request"></response-error-view>
+ * ```
+ *
+ * ### predefined message (chrome network error)
+ *
+ * ```html
+ * <response-error-view message="net::ERR_BAD_SSL_CLIENT_AUTH_CERT"></response-error-view>
+ * <response-error-view message="net::ERR_CONNECTION_REFUSED"></response-error-view>
+ * ```
+ *
+ * ## Predefined messages
+ * - Request aborted
+ * - net::ERR_CERT_AUTHORITY_INVALID
+ * - net::ERR_CONNECTION_REFUSED
+ * - net::ERR_CERT_COMMON_NAME_INVALID
+ * - net::ERR_ADDRESS_UNREACHABLE
+ * - net::ERR_BAD_SSL_CLIENT_AUTH_CERT
+ * - net::ERR_BLOCKED_BY_ADMINISTRATOR
+ * - net::ERR_BLOCKED_BY_CLIENT
+ * - net::ERR_BLOCKED_ENROLLMENT_CHECK_PENDING
+ * - net::ERR_CERT_CONTAINS_ERRORS
+ * - net::ERR_CERT_DATE_INVALID
+ * - net::ERR_CERT_END
+ * - net::ERR_CERT_ERROR_IN_SSL_RENEGOTIATION
+ * - net::ERR_CERT_INVALID
+ * - net::ERR_CERT_NAME_CONSTRAINT_VIOLATION
+ * - net::ERR_CERT_NON_UNIQUE_NAME
+ * - net::ERR_CERT_NO_REVOCATION_MECHANISM
+ * - net::ERR_CERT_REVOKED
+ * - net::ERR_CERT_UNABLE_TO_CHECK_REVOCATION
+ * - net::ERR_CERT_VALIDITY_TOO_LONG
+ * - net::ERR_CERT_WEAK_KEY
+ * - net::ERR_CERT_WEAK_SIGNATURE_ALGORITHM
+ * - net::ERR_CONNECTION_CLOSED
+ * - net::ERR_CONNECTION_RESET
+ * - net::ERR_CONNECTION_FAILED
+ * - net::ERR_CONNECTION_REFUSED
+ * - net::ERR_CONNECTION_TIMED_OUT
+ * - net::ERR_CONTENT_LENGTH_MISMATCH
+ * - net::ERR_INCOMPLETE_CHUNKED_ENCODING
+ * - net::ERR_FILE_NOT_FOUND
+ * - net::ERR_ICANN_NAME_COLLISION
+ * - net::ERR_INTERNET_DISCONNECTED
+ * - net::ERR_NAME_NOT_RESOLVED
+ * - net::ERR_NAME_RESOLUTION_FAILED
+ * - net::ERR_NETWORK_ACCESS_DENIED
+ * - net::ERR_NETWORK_CHANGED
+ * - net::ERR_NETWORK_IO_SUSPENDED
+ * - net::ERR_PROXY_CONNECTION_FAILED
+ * - net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION
+ * - net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH
+ * - net::ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION
+ * - net::ERR_SSL_FALLBACK_BEYOND_MINIMUM_VERSION
+ * - net::ERR_SSL_PROTOCOL_ERROR
+ * - net::ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN
+ * - net::ERR_SSL_SERVER_CERT_BAD_FORMAT
+ * - net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH
+ * - net::ERR_SSL_WEAK_SERVER_EPHEMERAL_DH_KEY
+ * - net::ERR_TEMPORARY_BACKOFF
+ * - net::ERR_TIMED_OUT
+ * - net::ERR_TOO_MANY_REDIRECTS
+ *
+ * ### Styling
+ * The styling is consistent with the `error-message` element styling options.
+ *
+ * `<response-error-view>` provides the following custom properties and mixins for styling:
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--response-error-view` | Mixin applied to the element | `{}`
+ * `--error-message-icon-color` | Color of the icon | `rgba(0, 0, 0, 0.56)`
+ * `--error-message-icon` | Mixin apllied to the icon | `{}`
+ * `--arc-font-subhead` | Theme mixin, applied to the predefined description message. | `{}`
+ * `--error-message-color` | Color of the predefined description message | `#db4437`
+ * `--error-message-text` | Mixin applied ot the predefined description message | `{}`
+ * `--error-message-code-color` | Color of the message passed to the element. It's meant to be a less visible information and probably define an error code. | `#9e9e9e`
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ * @memberof ApiElements
+ */
+class ResponseErrorView extends PolymerElement {
+  static get template() {
+    return html`
     <style>
      :host {
       @apply --layout-vertical;
@@ -79,7 +178,7 @@ the License.
             <h3>Install self signed certificate in Chrome</h3>
             <p>The app can't work if the self-signed certificate is not installed in Chrome.</p>
             <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
-              <paper-button raised>Tell me more</paper-button>
+              <paper-button raised="">Tell me more</paper-button>
             </a>
             <p class="error-code">[[message]]</p>
           </section>
@@ -105,10 +204,10 @@ the License.
             <p>Certificate presented to the app has different CN (common name) than the domain of the request.</p>
             <p>Please, generate certificate again with valid domain name or use free certificate service like <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.</p>
             <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
-              <paper-button raised>Tell me more</paper-button>
+              <paper-button raised="">Tell me more</paper-button>
             </a>
             <a class="inherit" href="https://bugs.chromium.org/p/chromium/issues/detail?id=603104" target="_blank">
-              <paper-button raised>See CR bug</paper-button>
+              <paper-button raised="">See CR bug</paper-button>
             </a>
             <p class="error-code">[[message]]</p>
           </section>
@@ -188,7 +287,7 @@ the License.
             <p>Certificate presented to the app is invalid.</p>
             <p>Please, generate certificate again or use free certificate service like <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.</p>
             <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
-              <paper-button raised>Tell me more</paper-button>
+              <paper-button raised="">Tell me more</paper-button>
             </a>
             <p class="error-code">[[message]]</p>
           </section>
@@ -208,7 +307,7 @@ the License.
             <p><b>Allow Chrome to access the network in your firewall or antivirus settings.</b></p>
             <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu > Settings > + Show advanced settings > Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
           </section>
           <section>
             <!-- 12 -->
@@ -220,38 +319,31 @@ the License.
           <section>
             <!-- 13 -->
             <h3>The requested URL can't be reached</h3>
-            <p>The service refused to connect.</p>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20102" target="_blank">chrome network error 102</a></p>
-            <p class="error-code">[[message]]</p>
-          </section>
-          <section>
-            <!-- 14 -->
-            <h3>The requested URL can't be reached</h3>
             <p>The service took too long to respond.</p>
             <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20118" target="_blank">chrome network error 118</a></p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 15 -->
+            <!-- 14 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service unexpectedly closed the connection.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 16 -->
+            <!-- 15 -->
             <h3>The requested URL was not found</h3>
             <p>It may have been moved or deleted.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 17 -->
+            <!-- 16 -->
             <h3>The requested URL can’t be reached</h3>
             <p>This site on the company, organisation or school intranet has the same URL as an external website.</p>
             <p>Try contacting your system administrator.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 18 -->
+            <!-- 17 -->
             <h3>There is no Internet connection</h3>
             <p>Your computer is offline.</p>
             <p>Try:</p>
@@ -263,21 +355,21 @@ the License.
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 19 -->
+            <!-- 18 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service's server DNS address could not be found.</p>
             <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20105" target="_blank">chrome network error 105</a></p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 20 -->
+            <!-- 19 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service might be temporarily down or it may have moved permanently to a new web address.</p>
             <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20137" target="_blank">chrome network error 137</a></p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 21 -->
+            <!-- 20 -->
             <h3>Your Internet access is blocked</h3>
             <p>Firewall or antivirus software may have blocked the connection.</p>
             <p>Try:</p>
@@ -292,19 +384,19 @@ the License.
             <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
           </section>
           <section>
-            <!-- 22 -->
+            <!-- 21 -->
             <h3>Your connection was interrupted</h3>
             <p>A network change was detected.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 23 -->
+            <!-- 22 -->
             <h3>Your connection was interrupted</h3>
             <p>Your computer went to sleep. Zzzzzzz.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 24 -->
+            <!-- 23 -->
             <h3>There is no Internet connection</h3>
             <p>There is something wrong with the proxy server or the address is incorrect.</p>
             <p>Try:</p>
@@ -314,35 +406,35 @@ the License.
             </ul>
             <p class="error-code">[[message]]</p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu > Settings > + Show advanced settings > Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
           </section>
           <section>
-            <!-- 25 -->
+            <!-- 24 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service sent an invalid response.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 26 -->
+            <!-- 25 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p><b>The URL</b> sent an invalid response.</p>
             <p><a href="https://support.google.com/chrome?p=ir_ssl_error" target="_blank">Learn more</a> about this problem.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 27 -->
+            <!-- 26 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server presented a certificate that doesn't match built-in expectations. These expectations are included for certain, high-security websites in order to protect you.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 28 -->
+            <!-- 27 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server doesn't adhere to security standards.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 29 -->
+            <!-- 28 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server uses an unsupported protocol.</p>
             <p class="error-code">[[message]]</p>
@@ -350,20 +442,20 @@ the License.
             <p>The client and server don't support a common SSL protocol version or cipher suite. This is likely to be caused when the server needs RC4, which is no longer considered secure.</p>
           </section>
           <section>
-            <!-- 30 -->
+            <!-- 29 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server doesn't adhere to security standards.</p>
-            <p><a href="https://support.google.com/chrome?p=dh_error&" target="_blank">Learn more</a> about this problem.</p>
+            <p><a href="https://support.google.com/chrome?p=dh_error&amp;" target="_blank">Learn more</a> about this problem.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 31 -->
+            <!-- 30 -->
             <h3>Access to network-error was denied</h3>
             <p>The server hosting the web page might be overloaded or under maintenance. In order to avoid generating too much traffic and make the situation worse, requests to this URL have been temporarily disallowed.</p>
             <p class="error-code">[[message]]</p>
           </section>
           <section>
-            <!-- 32 -->
+            <!-- 31 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service took too long to respond.</p>
             <p>Try</p>
@@ -378,10 +470,10 @@ the License.
             <p><b>Allow the browser to access the network in your firewall or antivirus settings.</b></p>
             <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu > Settings > + Show advanced settings > Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
           </section>
           <section>
-            <!-- 33 -->
+            <!-- 32 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service redirected you too many times.</p>
             <p>Try</p>
@@ -396,265 +488,163 @@ the License.
         </iron-pages>
       </div>
     </div>
-  </template>
-  <script>
-  /**
-   * A view for the response error.
-   *
-   * The element displays predefined error message with icon and depending on the
-   * `message` property it will display custom message or a predefined explanation
-   * if the message is one of the Chrome's network errors (net::*).
-   *
-   * If the `message` property is not set then a defaulot message will be displayed.
-   *
-   * ### Examples
-   *
-   * #### Custom message
-   *
-   * ```html
-   * <response-error-view message="Unable to run the request"></response-error-view>
-   * ```
-   *
-   * ### predefined message (chrome network error)
-   *
-   * ```html
-   * <response-error-view message="net::ERR_BAD_SSL_CLIENT_AUTH_CERT"></response-error-view>
-   * <response-error-view message="net::ERR_CONNECTION_REFUSED"></response-error-view>
-   * ```
-   *
-   * ## Predefined messages
-   * - Request aborted
-   * - net::ERR_CERT_AUTHORITY_INVALID
-   * - net::ERR_CONNECTION_REFUSED
-   * - net::ERR_CERT_COMMON_NAME_INVALID
-   * - net::ERR_ADDRESS_UNREACHABLE
-   * - net::ERR_BAD_SSL_CLIENT_AUTH_CERT
-   * - net::ERR_BLOCKED_BY_ADMINISTRATOR
-   * - net::ERR_BLOCKED_BY_CLIENT
-   * - net::ERR_BLOCKED_ENROLLMENT_CHECK_PENDING
-   * - net::ERR_CERT_CONTAINS_ERRORS
-   * - net::ERR_CERT_DATE_INVALID
-   * - net::ERR_CERT_END
-   * - net::ERR_CERT_ERROR_IN_SSL_RENEGOTIATION
-   * - net::ERR_CERT_INVALID
-   * - net::ERR_CERT_NAME_CONSTRAINT_VIOLATION
-   * - net::ERR_CERT_NON_UNIQUE_NAME
-   * - net::ERR_CERT_NO_REVOCATION_MECHANISM
-   * - net::ERR_CERT_REVOKED
-   * - net::ERR_CERT_UNABLE_TO_CHECK_REVOCATION
-   * - net::ERR_CERT_VALIDITY_TOO_LONG
-   * - net::ERR_CERT_WEAK_KEY
-   * - net::ERR_CERT_WEAK_SIGNATURE_ALGORITHM
-   * - net::ERR_CONNECTION_CLOSED
-   * - net::ERR_CONNECTION_RESET
-   * - net::ERR_CONNECTION_FAILED
-   * - net::ERR_CONNECTION_REFUSED
-   * - net::ERR_CONNECTION_TIMED_OUT
-   * - net::ERR_CONTENT_LENGTH_MISMATCH
-   * - net::ERR_INCOMPLETE_CHUNKED_ENCODING
-   * - net::ERR_FILE_NOT_FOUND
-   * - net::ERR_ICANN_NAME_COLLISION
-   * - net::ERR_INTERNET_DISCONNECTED
-   * - net::ERR_NAME_NOT_RESOLVED
-   * - net::ERR_NAME_RESOLUTION_FAILED
-   * - net::ERR_NETWORK_ACCESS_DENIED
-   * - net::ERR_NETWORK_CHANGED
-   * - net::ERR_NETWORK_IO_SUSPENDED
-   * - net::ERR_PROXY_CONNECTION_FAILED
-   * - net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION
-   * - net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH
-   * - net::ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION
-   * - net::ERR_SSL_FALLBACK_BEYOND_MINIMUM_VERSION
-   * - net::ERR_SSL_PROTOCOL_ERROR
-   * - net::ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN
-   * - net::ERR_SSL_SERVER_CERT_BAD_FORMAT
-   * - net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH
-   * - net::ERR_SSL_WEAK_SERVER_EPHEMERAL_DH_KEY
-   * - net::ERR_TEMPORARY_BACKOFF
-   * - net::ERR_TIMED_OUT
-   * - net::ERR_TOO_MANY_REDIRECTS
-   *
-   * ### Styling
-   * The styling is consistent with the `error-message` element styling options.
-   *
-   * `<response-error-view>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--response-error-view` | Mixin applied to the element | `{}`
-   * `--error-message-icon-color` | Color of the icon | `rgba(0, 0, 0, 0.56)`
-   * `--error-message-icon` | Mixin apllied to the icon | `{}`
-   * `--arc-font-subhead` | Theme mixin, applied to the predefined description message. | `{}`
-   * `--error-message-color` | Color of the predefined description message | `#db4437`
-   * `--error-message-text` | Mixin applied ot the predefined description message | `{}`
-   * `--error-message-code-color` | Color of the message passed to the element. It's meant to be a less visible information and probably define an error code. | `#9e9e9e`
-   *
-   * @customElement
-   * @polymer
-   * @demo demo/index.html
-   * @memberof ApiElements
-   */
-  class ResponseErrorView extends Polymer.Element {
-    static get is() { return 'response-error-view'; }
-    static get properties() {
-      return {
-        /**
-         * Message to display.
-         *
-         * The message can be one of the Chrome's net::* error codes. In this
-         * case the element will display predefined message.
-         */
-        message: {
-          type: String,
-          observer: '_messageChanged'
-        },
-        /**
-         * An icon to display.
-         */
-        icon: {
-          type: String,
-          value: 'arc:sentiment-very-dissatisfied'
-        },
-        // Opened detailed message page.
-        detailsPage: Number
-      };
-    }
+`;
+  }
 
-    ready() {
-      super.ready();
-      if (this.detailsPage === undefined) {
-        this.detailsPage = 0;
-      }
-    }
+  static get properties() {
+    return {
+      /**
+       * Message to display.
+       *
+       * The message can be one of the Chrome's net::* error codes. In this
+       * case the element will display predefined message.
+       */
+      message: {
+        type: String,
+        observer: '_messageChanged'
+      },
+      /**
+       * An icon to display.
+       */
+      icon: {
+        type: String,
+        value: 'arc:sentiment-very-dissatisfied'
+      },
+      // Opened detailed message page.
+      detailsPage: Number
+    };
+  }
 
-    // handler to the message change event.
-    _messageChanged(msg) {
-      if (msg) {
-        msg = msg.trim();
-      }
-      switch (msg) {
-        case 'net::ERR_CERT_AUTHORITY_INVALID':
-          this.detailsPage = 1;
-          break;
-        case 'net::ERR_CONNECTION_REFUSED':
-          this.detailsPage = 2;
-          break;
-        case 'net::ERR_CERT_COMMON_NAME_INVALID':
-          this.detailsPage = 3;
-          break;
-        case 'Request aborted':
-          this.detailsPage = 4;
-          break;
-        case 'net::ERR_ADDRESS_UNREACHABLE':
-          this.detailsPage = 5;
-          break;
-        case 'net::ERR_BAD_SSL_CLIENT_AUTH_CERT':
-          this.detailsPage = 6;
-          break;
-        case 'net::ERR_BLOCKED_BY_ADMINISTRATOR':
-          this.detailsPage = 7;
-          break;
-        case 'net::ERR_BLOCKED_BY_CLIENT':
-          this.detailsPage = 8;
-          break;
-        case 'net::ERR_BLOCKED_ENROLLMENT_CHECK_PENDING':
-          this.detailsPage = 9;
-          break;
-        case 'net::ERR_CERT_CONTAINS_ERRORS':
-        case 'net::ERR_CERT_DATE_INVALID':
-        case 'net::ERR_CERT_END':
-        case 'net::ERR_CERT_ERROR_IN_SSL_RENEGOTIATION':
-        case 'net::ERR_CERT_INVALID':
-        case 'net::ERR_CERT_NAME_CONSTRAINT_VIOLATION':
-        case 'net::ERR_CERT_NON_UNIQUE_NAME':
-        case 'net::ERR_CERT_NO_REVOCATION_MECHANISM':
-        case 'net::ERR_CERT_REVOKED':
-        case 'net::ERR_CERT_UNABLE_TO_CHECK_REVOCATION':
-        case 'net::ERR_CERT_VALIDITY_TOO_LONG':
-        case 'net::ERR_CERT_WEAK_KEY':
-        case 'net::ERR_CERT_WEAK_SIGNATURE_ALGORITHM':
-          this.detailsPage = 10;
-          break;
-        case 'net::ERR_CONNECTION_CLOSED':
-        case 'net::ERR_CONNECTION_RESET':
-          this.detailsPage = 11;
-          break;
-        case 'net::ERR_CONNECTION_FAILED':
-          this.detailsPage = 12;
-          break;
-        case 'net::ERR_CONNECTION_REFUSED':
-          this.detailsPage = 13;
-          break;
-        case 'net::ERR_CONNECTION_TIMED_OUT':
-          this.detailsPage = 14;
-          break;
-        case 'net::ERR_CONTENT_LENGTH_MISMATCH':
-        case 'net::ERR_INCOMPLETE_CHUNKED_ENCODING':
-          this.detailsPage = 15;
-          break;
-        case 'net::ERR_FILE_NOT_FOUND':
-          this.detailsPage = 16;
-          break;
-        case 'net::ERR_ICANN_NAME_COLLISION':
-          this.detailsPage = 17;
-          break;
-        case 'net::ERR_INTERNET_DISCONNECTED':
-          this.detailsPage = 18;
-          break;
-        case 'net::ERR_NAME_NOT_RESOLVED':
-          this.detailsPage = 19;
-          break;
-        case 'net::ERR_NAME_RESOLUTION_FAILED':
-          this.detailsPage = 20;
-          break;
-        case 'net::ERR_NETWORK_ACCESS_DENIED':
-          this.detailsPage = 21;
-          break;
-        case 'net::ERR_NETWORK_CHANGED':
-          this.detailsPage = 22;
-          break;
-        case 'net::ERR_NETWORK_IO_SUSPENDED':
-          this.detailsPage = 23;
-          break;
-        case 'net::ERR_PROXY_CONNECTION_FAILED':
-          this.detailsPage = 24;
-          break;
-        case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION':
-        case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH':
-        case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION':
-          this.detailsPage = 25;
-          break;
-        case 'net::ERR_SSL_FALLBACK_BEYOND_MINIMUM_VERSION':
-        case 'net::ERR_SSL_PROTOCOL_ERROR':
-          this.detailsPage = 26;
-          break;
-        case 'net::ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN':
-          this.detailsPage = 27;
-          break;
-        case 'net::ERR_SSL_SERVER_CERT_BAD_FORMAT':
-          this.detailsPage = 28;
-          break;
-        case 'net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH':
-          this.detailsPage = 29;
-          break;
-        case 'net::ERR_SSL_WEAK_SERVER_EPHEMERAL_DH_KEY':
-          this.detailsPage = 30;
-          break;
-        case 'net::ERR_TEMPORARY_BACKOFF':
-          this.detailsPage = 31;
-          break;
-        case 'net::ERR_TIMED_OUT':
-          this.detailsPage = 32;
-          break;
-        case 'net::ERR_TOO_MANY_REDIRECTS':
-          this.detailsPage = 33;
-          break;
-        default:
-          this.detailsPage = 0;
-          break;
-      }
+  ready() {
+    super.ready();
+    if (this.detailsPage === undefined) {
+      this.detailsPage = 0;
     }
   }
-  window.customElements.define(ResponseErrorView.is, ResponseErrorView);
-  </script>
-</dom-module>
+
+  // handler to the message change event.
+  _messageChanged(msg) {
+    if (msg) {
+      msg = msg.trim();
+    }
+    switch (msg) {
+      case 'net::ERR_CERT_AUTHORITY_INVALID':
+        this.detailsPage = 1;
+        break;
+      case 'net::ERR_CONNECTION_REFUSED':
+        this.detailsPage = 2;
+        break;
+      case 'net::ERR_CERT_COMMON_NAME_INVALID':
+        this.detailsPage = 3;
+        break;
+      case 'Request aborted':
+        this.detailsPage = 4;
+        break;
+      case 'net::ERR_ADDRESS_UNREACHABLE':
+        this.detailsPage = 5;
+        break;
+      case 'net::ERR_BAD_SSL_CLIENT_AUTH_CERT':
+        this.detailsPage = 6;
+        break;
+      case 'net::ERR_BLOCKED_BY_ADMINISTRATOR':
+        this.detailsPage = 7;
+        break;
+      case 'net::ERR_BLOCKED_BY_CLIENT':
+        this.detailsPage = 8;
+        break;
+      case 'net::ERR_BLOCKED_ENROLLMENT_CHECK_PENDING':
+        this.detailsPage = 9;
+        break;
+      case 'net::ERR_CERT_CONTAINS_ERRORS':
+      case 'net::ERR_CERT_DATE_INVALID':
+      case 'net::ERR_CERT_END':
+      case 'net::ERR_CERT_ERROR_IN_SSL_RENEGOTIATION':
+      case 'net::ERR_CERT_INVALID':
+      case 'net::ERR_CERT_NAME_CONSTRAINT_VIOLATION':
+      case 'net::ERR_CERT_NON_UNIQUE_NAME':
+      case 'net::ERR_CERT_NO_REVOCATION_MECHANISM':
+      case 'net::ERR_CERT_REVOKED':
+      case 'net::ERR_CERT_UNABLE_TO_CHECK_REVOCATION':
+      case 'net::ERR_CERT_VALIDITY_TOO_LONG':
+      case 'net::ERR_CERT_WEAK_KEY':
+      case 'net::ERR_CERT_WEAK_SIGNATURE_ALGORITHM':
+        this.detailsPage = 10;
+        break;
+      case 'net::ERR_CONNECTION_CLOSED':
+      case 'net::ERR_CONNECTION_RESET':
+        this.detailsPage = 11;
+        break;
+      case 'net::ERR_CONNECTION_FAILED':
+        this.detailsPage = 12;
+        break;
+      case 'net::ERR_CONNECTION_TIMED_OUT':
+        this.detailsPage = 13;
+        break;
+      case 'net::ERR_CONTENT_LENGTH_MISMATCH':
+      case 'net::ERR_INCOMPLETE_CHUNKED_ENCODING':
+        this.detailsPage = 14;
+        break;
+      case 'net::ERR_FILE_NOT_FOUND':
+        this.detailsPage = 15;
+        break;
+      case 'net::ERR_ICANN_NAME_COLLISION':
+        this.detailsPage = 16;
+        break;
+      case 'net::ERR_INTERNET_DISCONNECTED':
+        this.detailsPage = 17;
+        break;
+      case 'net::ERR_NAME_NOT_RESOLVED':
+        this.detailsPage = 18;
+        break;
+      case 'net::ERR_NAME_RESOLUTION_FAILED':
+        this.detailsPage = 19;
+        break;
+      case 'net::ERR_NETWORK_ACCESS_DENIED':
+        this.detailsPage = 20;
+        break;
+      case 'net::ERR_NETWORK_CHANGED':
+        this.detailsPage = 21;
+        break;
+      case 'net::ERR_NETWORK_IO_SUSPENDED':
+        this.detailsPage = 22;
+        break;
+      case 'net::ERR_PROXY_CONNECTION_FAILED':
+        this.detailsPage = 23;
+        break;
+      case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION':
+      case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH':
+      case 'net::ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION':
+        this.detailsPage = 24;
+        break;
+      case 'net::ERR_SSL_FALLBACK_BEYOND_MINIMUM_VERSION':
+      case 'net::ERR_SSL_PROTOCOL_ERROR':
+        this.detailsPage = 25;
+        break;
+      case 'net::ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN':
+        this.detailsPage = 26;
+        break;
+      case 'net::ERR_SSL_SERVER_CERT_BAD_FORMAT':
+        this.detailsPage = 27;
+        break;
+      case 'net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH':
+        this.detailsPage = 28;
+        break;
+      case 'net::ERR_SSL_WEAK_SERVER_EPHEMERAL_DH_KEY':
+        this.detailsPage = 29;
+        break;
+      case 'net::ERR_TEMPORARY_BACKOFF':
+        this.detailsPage = 30;
+        break;
+      case 'net::ERR_TIMED_OUT':
+        this.detailsPage = 31;
+        break;
+      case 'net::ERR_TOO_MANY_REDIRECTS':
+        this.detailsPage = 32;
+        break;
+      default:
+        this.detailsPage = 0;
+        break;
+    }
+  }
+}
+window.customElements.define('response-error-view', ResponseErrorView);
