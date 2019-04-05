@@ -11,14 +11,14 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import '@polymer/iron-flex-layout/iron-flex-layout.js';
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@polymer/iron-pages/iron-pages.js';
-import '@polymer/paper-button/paper-button.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
+import '../../@polymer/paper-button/paper-button.js';
+import '../../@polymer/iron-icon/iron-icon.js';
+import '../../@polymer/iron-pages/iron-pages.js';
+import '../../@polymer/paper-button/paper-button.js';
+import '../../@advanced-rest-client/arc-icons/arc-icons.js';
 /* eslint-disable max-len */
 /**
  * A view for the response error.
