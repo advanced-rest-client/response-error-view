@@ -13,7 +13,6 @@ the License.
 */
 import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
 import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
 import '../../@polymer/paper-button/paper-button.js';
 import '../../@polymer/iron-icon/iron-icon.js';
 import '../../@polymer/iron-pages/iron-pages.js';
@@ -121,29 +120,31 @@ class ResponseErrorView extends PolymerElement {
     return html`
     <style>
      :host {
-      @apply --layout-vertical;
-      @apply --layout-flex;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      flex-basis: 0.000000001px;
       -webkit-user-select: text;
       margin: 0 16px;
-      @apply --response-error-view;
     }
 
     .message-wrapper {
-      @apply --layout-horizontal;
-      @apply --layout-center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     .error-icon {
       width: 128px;
       height: 128px;
       color: var(--error-message-icon-color, rgba(0, 0, 0, 0.56));
-      @apply --error-message-icon;
     }
 
     .error-desc {
-      @apply --arc-font-subhead;
+      font-size: var(--arc-font-subhead-font-size);
+      font-weight: var(--arc-font-subhead-font-weight);
+      line-height: var(--arc-font-subhead-line-height);
       color: var(--error-message-color, #db4437);
-      @apply --error-message-text;
     }
 
     .error-code {
