@@ -11,13 +11,10 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/paper-button/paper-button.js';
-import '../../@polymer/iron-icon/iron-icon.js';
-import '../../@polymer/iron-pages/iron-pages.js';
-import '../../@polymer/paper-button/paper-button.js';
-import '../../@advanced-rest-client/arc-icons/arc-icons.js';
+import { LitElement, html, css } from 'lit-element';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@advanced-rest-client/arc-icons/arc-icons.js';
 /* eslint-disable max-len */
 /**
  * A view for the response error.
@@ -111,80 +108,85 @@ import '../../@advanced-rest-client/arc-icons/arc-icons.js';
  * `--error-message-code-color` | Color of the message passed to the element. It's meant to be a less visible information and probably define an error code. | `#9e9e9e`
  *
  * @customElement
- * @polymer
  * @demo demo/index.html
- * @memberof ApiElements
+ * @memberof UiElements
  */
-class ResponseErrorView extends PolymerElement {
-  static get template() {
-    return html`
-    <style>
-     :host {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      flex-basis: 0.000000001px;
-      -webkit-user-select: text;
-      margin: 0 16px;
-    }
+class ResponseErrorView extends LitElement {
+  static get styles() {
+    return css`
+      :host {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        flex-basis: 0.000000001px;
+        user-select: text;
+        margin: 0 16px;
+      }
 
-    .message-wrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
+      .message-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
 
-    .error-icon {
-      width: 128px;
-      height: 128px;
-      color: var(--error-message-icon-color, rgba(0, 0, 0, 0.56));
-    }
+      .error-icon {
+        width: 128px;
+        height: 128px;
+        color: var(--error-message-icon-color, rgba(0, 0, 0, 0.56));
+      }
 
-    .error-desc {
-      font-size: var(--arc-font-subhead-font-size);
-      font-weight: var(--arc-font-subhead-font-weight);
-      line-height: var(--arc-font-subhead-line-height);
-      color: var(--error-message-color, #db4437);
-    }
+      .error-desc {
+        font-size: var(--arc-font-subhead-font-size);
+        font-weight: var(--arc-font-subhead-font-weight);
+        line-height: var(--arc-font-subhead-line-height);
+        color: var(--error-message-color, #db4437);
+      }
 
-    .error-code {
-      color: var(--error-message-code-color, #9e9e9e);
-    }
+      .error-code {
+        color: var(--error-message-code-color, #9e9e9e);
+      }
 
-    .inherit {
-      color: inherit !important;
-      background-color: inherit !important;
-      text-decoration: inherit !important;
-    }
+      .inherit {
+        color: inherit !important;
+        background-color: inherit !important;
+        text-decoration: inherit !important;
+      }
 
-    p,
-    h3 {
-      cursor: text;
-    }
-    </style>
-    <div class="message-wrapper">
-      <div>
-        <iron-icon class="error-icon" icon="[[icon]]"></iron-icon>
-      </div>
-      <div class="error-desc">
-        <iron-pages selected="[[detailsPage]]">
+      p,
+      h3 {
+        cursor: text;
+      }
+    `;
+  }
+
+  _renderPageTemplate(selected, message) {
+    switch (selected) {
+      case 0:
+        return html`
           <section>
-            <!-- 0 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service might be temporarily down or it may have moved permanently to a new web address.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 1:
+        return html`
           <section>
-            <!-- 1 -->
             <h3>Install self signed certificate in Chrome</h3>
             <p>The app can't work if the self-signed certificate is not installed in Chrome.</p>
-            <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
+            <a
+              class="inherit"
+              href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
+              target="_blank"
+            >
               <paper-button raised="">Tell me more</paper-button>
             </a>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 2:
+        return html`
           <section>
-            <!-- 2 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service refused to connect.</p>
             <p>
@@ -196,32 +198,54 @@ class ResponseErrorView extends PolymerElement {
               <li>port number is correct</li>
               <li>url is correct</li>
             </ul>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20102" target="_blank">chrome network error 102</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.com/search?q=chrome%20network%20error%20102" target="_blank"
+                >chrome network error 102</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 3:
+        return html`
           <section>
-            <!-- 3 -->
             <h3>Certificate is invalid for given domain</h3>
             <p>Certificate presented to the app has different CN (common name) than the domain of the request.</p>
-            <p>Please, generate certificate again with valid domain name or use free certificate service like <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.</p>
-            <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
+            <p>
+              Please, generate certificate again with valid domain name or use free certificate service like
+              <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.
+            </p>
+            <a
+              class="inherit"
+              href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
+              target="_blank"
+            >
               <paper-button raised="">Tell me more</paper-button>
             </a>
             <a class="inherit" href="https://bugs.chromium.org/p/chromium/issues/detail?id=603104" target="_blank">
               <paper-button raised="">See CR bug</paper-button>
             </a>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 4:
+        return html`
           <section>
-            <!-- 4 -->
             <h3>Abort / timeout</h3>
-            <p>The request has been aborted manually or because of the conection timeout. There were no response from the server but the connection wasn't closed.</p>
+            <p>
+              The request has been aborted manually or because of the conection timeout. There were no response from the
+              server but the connection wasn't closed.
+            </p>
             <p>You can adjust timeout in settings.</p>
             <p>
               Try to:
             </p>
             <ul>
-              <li>add "Connection: close" header which should be used by the server to close the connection after it finish generating response</li>
+              <li>
+                add "Connection: close" header which should be used by the server to close the connection after it
+                finish generating response
+              </li>
             </ul>
             <p>
               Please, check if:
@@ -235,34 +259,51 @@ class ResponseErrorView extends PolymerElement {
             </ul>
             <h4>Example</h4>
             <p>
-              Sometimes it may happen when you use <b>http</b> protocol instead of <b>https</b>. Also it may happen when you use different URL (port / protocol) and the server is not configured properly.
+              Sometimes it may happen when you use <b>http</b> protocol instead of <b>https</b>. Also it may happen when
+              you use different URL (port / protocol) and the server is not configured properly.
             </p>
           </section>
+        `;
+      case 5:
+        return html`
           <section>
-            <!-- 5 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service is unreachable.</p>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20109" target="_blank">chrome network error 109</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.com/search?q=chrome%20network%20error%20109" target="_blank"
+                >chrome network error 109</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 6:
+        return html`
           <section>
-            <!-- 6 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p><b>The URL</b> didn’t accept your login certificate or your login certificate may have expired.</p>
             <p>Try contacting the system admin.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 7:
+        return html`
           <section>
-            <!-- 7 -->
             <h3>The URL is blocked</h3>
             <p>The person who set up this computer has chosen to block this site.</p>
             <p>Try contacting the system admin.</p>
             <p><b>Check your administrator's policies</b></p>
-            <p>Visit <b>chrome://policy</b> to see the list of blacklisted URLs and other policies enforced by your system administrator.</p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Visit <b>chrome://policy</b> to see the list of blacklisted URLs and other policies enforced by your
+              system administrator.
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 8:
+        return html`
           <section>
-            <!-- 8 -->
             <h3>The URL is blocked</h3>
             <p>Requests to the server have been blocked by an extension.</p>
             <p>Try</p>
@@ -270,30 +311,46 @@ class ResponseErrorView extends PolymerElement {
               <li>Again...</li>
               <li>Disabling your extensions</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 9:
+        return html`
           <section>
-            <!-- 9 -->
             <h3>There is no Internet connection</h3>
             <p>Chrome OS hasn’t completed its initial setup.</p>
             <ul>
-              <li>Fix your connection using the <a href="data:text/html,chromewebdata#buttons" target="_blank">diagnostics app</a></li>
+              <li>
+                Fix your connection using the
+                <a href="data:text/html,chromewebdata#buttons" target="_blank">diagnostics app</a>
+              </li>
               <li>Sign out and complete setup</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 10:
+        return html`
           <section>
-            <!-- 10 -->
             <h3>Certificate error</h3>
             <p>Certificate presented to the app is invalid.</p>
-            <p>Please, generate certificate again or use free certificate service like <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.</p>
-            <a class="inherit" href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html" target="_blank">
+            <p>
+              Please, generate certificate again or use free certificate service like
+              <a href="https://letsencrypt.org/" target="_blank">letsencrypt.org</a> to get a new certificate.
+            </p>
+            <a
+              class="inherit"
+              href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
+              target="_blank"
+            >
               <paper-button raised="">Tell me more</paper-button>
             </a>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 11:
+        return html`
           <section>
-            <!-- 11 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service unexpectedly closed the connection.</p>
             <p>Try</p>
@@ -302,49 +359,79 @@ class ResponseErrorView extends PolymerElement {
               <li>Checking the connection</li>
               <li>Checking the proxy and the firewall</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>Check your Internet connection</b></p>
             <p>Check any cables and reboot any routers, modems or other network devices you may be using.</p>
             <p><b>Allow Chrome to access the network in your firewall or antivirus settings.</b></p>
-            <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
+            <p>
+              If it is already listed as a program allowed to access the network, try removing it from the list and
+              adding it again.
+            </p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>
+              Check your proxy settings or contact your network administrator to make sure that the proxy server is
+              working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt;
+              + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no
+              proxy" or "direct."
+            </p>
           </section>
+        `;
+      case 12:
+        return html`
           <section>
-            <!-- 12 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service is unreachable.</p>
-            <p>Search Google for <a href="https://www.google.co.uk/search?q=chrome%20network%20error%20104" target="_blank">chrome network error 104</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.co.uk/search?q=chrome%20network%20error%20104" target="_blank"
+                >chrome network error 104</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 13:
+        return html`
           <section>
-            <!-- 13 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service took too long to respond.</p>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20118" target="_blank">chrome network error 118</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.com/search?q=chrome%20network%20error%20118" target="_blank"
+                >chrome network error 118</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 14:
+        return html`
           <section>
-            <!-- 14 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service unexpectedly closed the connection.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 15:
+        return html`
           <section>
-            <!-- 15 -->
             <h3>The requested URL was not found</h3>
             <p>It may have been moved or deleted.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 16:
+        return html`
           <section>
-            <!-- 16 -->
             <h3>The requested URL can’t be reached</h3>
             <p>This site on the company, organisation or school intranet has the same URL as an external website.</p>
             <p>Try contacting your system administrator.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 17:
+        return html`
           <section>
-            <!-- 17 -->
             <h3>There is no Internet connection</h3>
             <p>Your computer is offline.</p>
             <p>Try:</p>
@@ -353,24 +440,40 @@ class ResponseErrorView extends PolymerElement {
               <li>Resetting the modem or router</li>
               <li>Reconnecting to Wi-Fi</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 18:
+        return html`
           <section>
-            <!-- 18 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service's server DNS address could not be found.</p>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20105" target="_blank">chrome network error 105</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.com/search?q=chrome%20network%20error%20105" target="_blank"
+                >chrome network error 105</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 19:
+        return html`
           <section>
-            <!-- 19 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service might be temporarily down or it may have moved permanently to a new web address.</p>
-            <p>Search Google for <a href="https://www.google.com/search?q=chrome%20network%20error%20137" target="_blank">chrome network error 137</a></p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              Search Google for
+              <a href="https://www.google.com/search?q=chrome%20network%20error%20137" target="_blank"
+                >chrome network error 137</a
+              >
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 20:
+        return html`
           <section>
-            <!-- 20 -->
             <h3>Your Internet access is blocked</h3>
             <p>Firewall or antivirus software may have blocked the connection.</p>
             <p>Try:</p>
@@ -378,26 +481,35 @@ class ResponseErrorView extends PolymerElement {
               <li>Checking the connection</li>
               <li>Checking firewall and antivirus configurations</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>Check your Internet connection</b></p>
             <p>Check any cables and reboot any routers, modems or other network devices you may be using.</p>
             <p><b>Allow Chrome to access the network in your firewall or antivirus settings</b></p>
-            <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
+            <p>
+              If it is already listed as a program allowed to access the network, try removing it from the list and
+              adding it again.
+            </p>
           </section>
+        `;
+      case 21:
+        return html`
           <section>
-            <!-- 21 -->
             <h3>Your connection was interrupted</h3>
             <p>A network change was detected.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 22:
+        return html`
           <section>
-            <!-- 22 -->
             <h3>Your connection was interrupted</h3>
             <p>Your computer went to sleep. Zzzzzzz.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 23:
+        return html`
           <section>
-            <!-- 23 -->
             <h3>There is no Internet connection</h3>
             <p>There is something wrong with the proxy server or the address is incorrect.</p>
             <p>Try:</p>
@@ -405,58 +517,94 @@ class ResponseErrorView extends PolymerElement {
               <li>Checking the proxy address</li>
               <li>Contacting the system admin</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>
+              Check your proxy settings or contact your network administrator to make sure that the proxy server is
+              working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt;
+              + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no
+              proxy" or "direct."
+            </p>
           </section>
+        `;
+      case 24:
+        return html`
           <section>
-            <!-- 24 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service sent an invalid response.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 25:
+        return html`
           <section>
-            <!-- 25 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p><b>The URL</b> sent an invalid response.</p>
-            <p><a href="https://support.google.com/chrome?p=ir_ssl_error" target="_blank">Learn more</a> about this problem.</p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              <a href="https://support.google.com/chrome?p=ir_ssl_error" target="_blank">Learn more</a> about this
+              problem.
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 26:
+        return html`
           <section>
-            <!-- 26 -->
             <h3>The requested URL can’t provide a secure connection</h3>
-            <p>The server presented a certificate that doesn't match built-in expectations. These expectations are included for certain, high-security websites in order to protect you.</p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              The server presented a certificate that doesn't match built-in expectations. These expectations are
+              included for certain, high-security websites in order to protect you.
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 27:
+        return html`
           <section>
-            <!-- 27 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server doesn't adhere to security standards.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 28:
+        return html`
           <section>
-            <!-- 28 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server uses an unsupported protocol.</p>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>Unsupported protocol</b></p>
-            <p>The client and server don't support a common SSL protocol version or cipher suite. This is likely to be caused when the server needs RC4, which is no longer considered secure.</p>
+            <p>
+              The client and server don't support a common SSL protocol version or cipher suite. This is likely to be
+              caused when the server needs RC4, which is no longer considered secure.
+            </p>
           </section>
+        `;
+      case 29:
+        return html`
           <section>
-            <!-- 29 -->
             <h3>The requested URL can’t provide a secure connection</h3>
             <p>The server doesn't adhere to security standards.</p>
-            <p><a href="https://support.google.com/chrome?p=dh_error&amp;" target="_blank">Learn more</a> about this problem.</p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              <a href="https://support.google.com/chrome?p=dh_error&amp;" target="_blank">Learn more</a> about this
+              problem.
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 30:
+        return html`
           <section>
-            <!-- 30 -->
             <h3>Access to network-error was denied</h3>
-            <p>The server hosting the web page might be overloaded or under maintenance. In order to avoid generating too much traffic and make the situation worse, requests to this URL have been temporarily disallowed.</p>
-            <p class="error-code">[[message]]</p>
+            <p>
+              The server hosting the web page might be overloaded or under maintenance. In order to avoid generating too
+              much traffic and make the situation worse, requests to this URL have been temporarily disallowed.
+            </p>
+            <p class="error-code">${message}</p>
           </section>
+        `;
+      case 31:
+        return html`
           <section>
-            <!-- 31 -->
             <h3>The requested URL can't be reached</h3>
             <p>The service took too long to respond.</p>
             <p>Try</p>
@@ -465,16 +613,26 @@ class ResponseErrorView extends PolymerElement {
               <li>Checking the connection</li>
               <li>Checking the proxy and the firewall</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>Check your Internet connection</b></p>
             <p>Check any cables and reboot any routers, modems or other network devices you may be using.</p>
             <p><b>Allow the browser to access the network in your firewall or antivirus settings.</b></p>
-            <p>If it is already listed as a program allowed to access the network, try removing it from the list and adding it again.</p>
+            <p>
+              If it is already listed as a program allowed to access the network, try removing it from the list and
+              adding it again.
+            </p>
             <p><b>If you use a proxy server...</b></p>
-            <p>Check your proxy settings or contact your network administrator to make sure that the proxy server is working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt; + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no proxy" or "direct."</p>
+            <p>
+              Check your proxy settings or contact your network administrator to make sure that the proxy server is
+              working. If you don't believe you should be using a proxy server: Go to the Chrome menu &gt; Settings &gt;
+              + Show advanced settings &gt; Change proxy settings... and make sure your configuration is set to "no
+              proxy" or "direct."
+            </p>
           </section>
+        `;
+      case 32:
+        return html`
           <section>
-            <!-- 32 -->
             <h3>The requested URL isn’t working</h3>
             <p>The service redirected you too many times.</p>
             <p>Try</p>
@@ -482,14 +640,26 @@ class ResponseErrorView extends PolymerElement {
               <li>Again...</li>
               <li>Clearing your cookies</li>
             </ul>
-            <p class="error-code">[[message]]</p>
+            <p class="error-code">${message}</p>
             <p><b>Clearing your cookies</b></p>
             <p>Go to app's settings and click on "Clear cookies".</p>
           </section>
-        </iron-pages>
+        `;
+    }
+  }
+
+  render() {
+    const { icon, detailsPage, message } = this;
+    return html`
+      <div class="message-wrapper">
+        <div>
+          <iron-icon class="error-icon" .icon="${icon}"></iron-icon>
+        </div>
+        <div class="error-desc">
+          ${this._renderPageTemplate(detailsPage, message)}
+        </div>
       </div>
-    </div>
-`;
+    `;
   }
 
   static get properties() {
@@ -500,24 +670,38 @@ class ResponseErrorView extends PolymerElement {
        * The message can be one of the Chrome's net::* error codes. In this
        * case the element will display predefined message.
        */
-      message: {
-        type: String,
-        observer: '_messageChanged'
-      },
+      message: { type: String },
       /**
        * An icon to display.
        */
-      icon: {
-        type: String,
-        value: 'arc:sentiment-very-dissatisfied'
-      },
+      icon: { type: String },
       // Opened detailed message page.
-      detailsPage: Number
+      detailsPage: { type: Number }
     };
   }
 
-  ready() {
-    super.ready();
+  get message() {
+    return this._message;
+  }
+
+  set message(value) {
+    const old = this._message;
+    if (old === value) {
+      return;
+    }
+    this.requestUpdate('message', old);
+    this._messageChanged(value);
+  }
+
+  constructor() {
+    super();
+    this.icon = 'arc:sentiment-very-dissatisfied';
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
     if (this.detailsPage === undefined) {
       this.detailsPage = 0;
     }
