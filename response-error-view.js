@@ -12,7 +12,7 @@ License for the specific language governing permissions and limitations under
 the License.
 */
 import { LitElement, html, css } from 'lit-element';
-import '@polymer/paper-button/paper-button.js';
+import '@anypoint-web-components/anypoint-button/anypoint-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@advanced-rest-client/arc-icons/arc-icons.js';
 /* eslint-disable max-len */
@@ -179,7 +179,7 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <paper-button raised="">Tell me more</paper-button>
+              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>
@@ -221,10 +221,10 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <paper-button raised="">Tell me more</paper-button>
+              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
             </a>
             <a class="inherit" href="https://bugs.chromium.org/p/chromium/issues/detail?id=603104" target="_blank">
-              <paper-button raised="">See CR bug</paper-button>
+              <anypoint-button emphasis="high" tabindex="-1">See CR bug</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>
@@ -343,7 +343,7 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <paper-button raised="">Tell me more</paper-button>
+              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>

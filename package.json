@@ -1,7 +1,7 @@
 {
   "name": "@advanced-rest-client/response-error-view",
   "description": "A view for the response error",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "Apache-2.0",
   "main": "response-error-view.js",
   "keywords": [
@@ -28,7 +28,7 @@
   "dependencies": {
     "@advanced-rest-client/arc-icons": "^3.0.0",
     "@polymer/iron-icon": "^3.0.0",
-    "@polymer/paper-button": "^3.0.0",
+    "@anypoint-web-components/anypoint-button": "^1.0.9",
     "lit-element": "^2.0.1"
   },
   "devDependencies": {
@@ -36,17 +36,18 @@
     "@advanced-rest-client/eslint-config": "^1.0.6",
     "@advanced-rest-client/prettier-config": "^0.1.0",
     "@advanced-rest-client/testing-karma-sl": "^1.0.2",
+    "@anypoint-web-components/anypoint-styles": "^1.0.0-preview.1",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^7.0.0",
-    "@open-wc/testing": "^2.1.2",
-    "@open-wc/testing-karma": "^3.1.2",
+    "@open-wc/testing": "^2.3.3",
+    "@open-wc/testing-karma": "^3.1.30",
     "@polymer/gen-typescript-declarations": "^1.6.2",
     "deepmerge": "^4.0.0",
-    "es-dev-server": "^1.5.0",
+    "es-dev-server": "^1.17.0",
     "husky": "^1.0.0",
-    "karma": "^4.2.0",
+    "karma": "^4.3.0",
     "lint-staged": "^8.0.0",
-    "sinon": "^7.3.2"
+    "sinon": "^7.4.1"
   },
   "scripts": {
     "test": "karma start --coverage",
@@ -67,7 +68,6 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "prettier --write",
       "git add"
     ]
   }
