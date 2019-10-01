@@ -24,45 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="vertical-section-container centered">
-    <h3>Custom message</h3>
-    <arc-demo-helper>
-      <template>
-        <response-error-view message="Unable to run the request"></response-error-view>
-      </template>
-    </arc-demo-helper>
-
-    <h3>Styled message</h3>
-    <arc-demo-helper>
-      <template>
-        <response-error-view class="icon-color" icon="arc:error" message="net::ERR_CONNECTION_REFUSED"></response-error-view>
-        <style>
-        .icon-color {
-          --error-message-icon-color: rgba(63, 81, 181, 0.74);
-          --error-message-color: #3F51B5;
-          --error-message-code-color: #8D6E63;
-        }
-        </style>
-      </template>
-    </arc-demo-helper>
-
-    <h3>Predefined messages</h3>
-    <arc-demo-helper>
-      <template>
-        <div class="list">
-          <response-error-view message="net::ERR_BAD_SSL_CLIENT_AUTH_CERT"></response-error-view><hr>
-          <response-error-view message="net::ERR_CERT_AUTHORITY_INVALID"></response-error-view><hr>
-          <response-error-view message="net::ERR_CERT_COMMON_NAME_INVALID"></response-error-view><hr>
-          <response-error-view message="Request aborted"></response-error-view><hr>
-          <response-error-view message="net::ERR_ADDRESS_UNREACHABLE"></response-error-view><hr>
-          <response-error-view message="net::ERR_BLOCKED_BY_ADMINISTRATOR"></response-error-view><hr>
-          <response-error-view message="net::ERR_BLOCKED_BY_CLIENT"></response-error-view><hr>
-          <response-error-view message="net::ERR_TIMED_OUT"></response-error-view>
-        </div>
-      </template>
-    </arc-demo-helper>
-  </div>
-
+  <div id="demo"></div>
   <script type="module" src="./index.js"></script>
 </body>
 </html>

@@ -13,8 +13,7 @@ the License.
 */
 import { LitElement, html, css } from 'lit-element';
 import '@anypoint-web-components/anypoint-button/anypoint-button.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
+import { sentimentVeryDissatisfied } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 /* eslint-disable max-len */
 /**
  * A view for the response error.
@@ -99,12 +98,8 @@ import '@advanced-rest-client/arc-icons/arc-icons.js';
  *
  * Custom property | Description | Default
  * ----------------|-------------|----------
- * `--response-error-view` | Mixin applied to the element | `{}`
  * `--error-message-icon-color` | Color of the icon | `rgba(0, 0, 0, 0.56)`
- * `--error-message-icon` | Mixin apllied to the icon | `{}`
- * `--arc-font-subhead` | Theme mixin, applied to the predefined description message. | `{}`
  * `--error-message-color` | Color of the predefined description message | `#db4437`
- * `--error-message-text` | Mixin applied ot the predefined description message | `{}`
  * `--error-message-code-color` | Color of the message passed to the element. It's meant to be a less visible information and probably define an error code. | `#9e9e9e`
  *
  * @customElement
@@ -130,9 +125,11 @@ class ResponseErrorView extends LitElement {
       }
 
       .error-icon {
+        min-width: 128px;
         width: 128px;
         height: 128px;
-        color: var(--error-message-icon-color, rgba(0, 0, 0, 0.56));
+        fill: var(--error-message-icon-color, rgba(0, 0, 0, 0.56));
+        display: block;
       }
 
       .error-desc {
@@ -649,12 +646,10 @@ class ResponseErrorView extends LitElement {
   }
 
   render() {
-    const { icon, detailsPage, message } = this;
+    const { detailsPage, message } = this;
     return html`
       <div class="message-wrapper">
-        <div>
-          <iron-icon class="error-icon" .icon="${icon}"></iron-icon>
-        </div>
+        <div class="error-icon">${sentimentVeryDissatisfied}</div>
         <div class="error-desc">
           ${this._renderPageTemplate(detailsPage, message)}
         </div>
@@ -671,10 +666,6 @@ class ResponseErrorView extends LitElement {
        * case the element will display predefined message.
        */
       message: { type: String },
-      /**
-       * An icon to display.
-       */
-      icon: { type: String },
       // Opened detailed message page.
       detailsPage: { type: Number }
     };
@@ -689,13 +680,9 @@ class ResponseErrorView extends LitElement {
     if (old === value) {
       return;
     }
+    this._message = value;
     this.requestUpdate('message', old);
     this._messageChanged(value);
-  }
-
-  constructor() {
-    super();
-    this.icon = 'arc:sentiment-very-dissatisfied';
   }
 
   connectedCallback() {
