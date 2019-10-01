@@ -176,7 +176,11 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
+              <anypoint-button
+                emphasis="high"
+                tabindex="-1"
+                ?compatibility="${this.compatibility}"
+              >Tell me more</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>
@@ -218,10 +222,10 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
+              <anypoint-button emphasis="high" tabindex="-1" ?compatibility="${this.compatibility}">Tell me more</anypoint-button>
             </a>
             <a class="inherit" href="https://bugs.chromium.org/p/chromium/issues/detail?id=603104" target="_blank">
-              <anypoint-button emphasis="high" tabindex="-1">See CR bug</anypoint-button>
+              <anypoint-button emphasis="high" tabindex="-1" ?compatibility="${this.compatibility}">See CR bug</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>
@@ -340,7 +344,7 @@ class ResponseErrorView extends LitElement {
               href="http://restforchrome.blogspot.co.uk/2016/04/advanced-rest-client.html"
               target="_blank"
             >
-              <anypoint-button emphasis="high" tabindex="-1">Tell me more</anypoint-button>
+              <anypoint-button emphasis="high" tabindex="-1" ?compatibility="${this.compatibility}">Tell me more</anypoint-button>
             </a>
             <p class="error-code">${message}</p>
           </section>
@@ -667,7 +671,11 @@ class ResponseErrorView extends LitElement {
        */
       message: { type: String },
       // Opened detailed message page.
-      detailsPage: { type: Number }
+      detailsPage: { type: Number },
+      /**
+       * Enables compatibility view for Anypoint
+       */
+      compatibility: { type: Boolean }
     };
   }
 
