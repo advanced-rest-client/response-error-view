@@ -26,3 +26,7 @@
 
 
 
+## [3.0.2](https://github.com/advanced-rest-client/response-error-view/compare/0.1.1...3.0.2) (2019-10-01)
+
+
+
