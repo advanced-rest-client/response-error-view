@@ -107,7 +107,7 @@ import { sentimentVeryDissatisfied } from '@advanced-rest-client/arc-icons/ArcIc
  * @memberof UiElements
  */
 class ResponseErrorView extends LitElement {
-  static get styles() {
+  get styles() {
     return css`
       :host {
         display: flex;
@@ -651,7 +651,7 @@ class ResponseErrorView extends LitElement {
 
   render() {
     const { detailsPage, message } = this;
-    return html`
+    return html`<style>${this.styles}</style>
       <div class="message-wrapper">
         <div class="error-icon">${sentimentVeryDissatisfied}</div>
         <div class="error-desc">
