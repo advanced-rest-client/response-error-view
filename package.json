@@ -1,7 +1,7 @@
 {
   "name": "@advanced-rest-client/response-error-view",
   "description": "A view for the response error",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "Apache-2.0",
   "main": "response-error-view.js",
   "keywords": [
