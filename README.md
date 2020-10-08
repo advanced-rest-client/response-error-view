@@ -4,25 +4,28 @@
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/response-error-view)
 
-## &lt;response-error-view&gt;
+## response-error-view
 
-A view for errored HTTP response.
+A view for error HTTP response.
 
-It uses Chrome's commin response codes to generate detailed view. You can also provide custom message to be rendered.
-
+It uses Chrome's common response codes to generate detailed view. You can also provide custom message to be rendered.
 
 ```html
 <response-error-view message="net::ERR_CERT_AUTHORITY_INVALID"></response-error-view>
 ```
 
-### API components
+***
 
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
+## This component is deprecated
+
+Use `@advanced-rest-client/arc-response` instead.
+***
 
 ## Usage
 
 ### Installation
-```
+
+```sh
 npm install --save @advanced-rest-client/response-error-view
 ```
 
